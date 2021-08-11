@@ -1,5 +1,6 @@
 package com.ahmadabuhasan.barvolume;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String STATE_RESULT = "state_result";
 
     private EditText etPanjang;
     private EditText etLebar;
@@ -30,6 +33,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnHitung.setOnClickListener(this);
 
+        if (savedInstanceState != null) {
+            String result = savedInstanceState.getString(STATE_RESULT);
+            tvHasil.setText(result);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_RESULT, tvHasil.getText().toString());
     }
 
     @Override

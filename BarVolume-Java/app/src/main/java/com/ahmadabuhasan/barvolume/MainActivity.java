@@ -12,92 +12,67 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText edtLength;
+    private EditText edtWidth;
+    private EditText edtHeight;
+    private Button btnCalculate;
+    private TextView tvResult;
+
     private static final String STATE_RESULT = "state_result";
 
-    private EditText etPanjang;
-    private EditText etLebar;
-    private EditText etTinggi;
-    private Button btnHitung;
-    private TextView tvHasil;
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_RESULT, tvResult.getText().toString());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etPanjang = findViewById(R.id.et_panjang);
-        etLebar = findViewById(R.id.et_lebar);
-        etTinggi = findViewById(R.id.et_tinggi);
-        btnHitung = findViewById(R.id.btn_hitung);
-        tvHasil = findViewById(R.id.tv_hasil);
+        edtLength = findViewById(R.id.edt_length);
+        edtWidth = findViewById(R.id.edt_width);
+        edtHeight = findViewById(R.id.edt_height);
+        btnCalculate = findViewById(R.id.btn_calculate);
+        tvResult = findViewById(R.id.tv_result);
 
-        btnHitung.setOnClickListener(this);
+        btnCalculate.setOnClickListener(this);
 
         if (savedInstanceState != null) {
             String result = savedInstanceState.getString(STATE_RESULT);
-            tvHasil.setText(result);
+            tvResult.setText(result);
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(STATE_RESULT, tvHasil.getText().toString());
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_hitung) {
-            String inputPanjang = etPanjang.getText().toString().trim();
-            String inputLebar = etLebar.getText().toString().trim();
-            String inputTinggi = etTinggi.getText().toString().trim();
+        if (v.getId() == R.id.btn_calculate) {
+            String inputLength = edtLength.getText().toString().trim();
+            String inputWidth = edtWidth.getText().toString().trim();
+            String inputHeight = edtHeight.getText().toString().trim();
 
             boolean isEmptyFields = false;
-            boolean isInvalidDouble = false;
 
-            if (TextUtils.isEmpty(inputPanjang)) {
+            if (TextUtils.isEmpty(inputLength)) {
                 isEmptyFields = true;
-                etPanjang.setError("Field ini tidak boleh kosong");
+                edtLength.setError("Field ini tidak boleh kosong");
             }
 
-            if (TextUtils.isEmpty(inputLebar)) {
+            if (TextUtils.isEmpty(inputWidth)) {
                 isEmptyFields = true;
-                etLebar.setError("Field ini tidak boleh kosong");
+                edtWidth.setError("Field ini tidak boleh kosong");
             }
 
-            if (TextUtils.isEmpty(inputTinggi)) {
+            if (TextUtils.isEmpty(inputHeight)) {
                 isEmptyFields = true;
-                etTinggi.setError("Field ini tidak boleh kosong");
+                edtHeight.setError("Field ini tidak boleh kosong");
             }
 
-            Double length = toDouble(inputPanjang);
-            Double width = toDouble(inputLebar);
-            Double height = toDouble(inputTinggi);
-
-            if (length == null) {
-                isInvalidDouble = true;
-                etPanjang.setError("Field ini harus berupa nomer yang valid");
+            if (!isEmptyFields) {
+                double volume = Double.valueOf(inputLength) * Double.valueOf(inputWidth) * Double.valueOf(inputHeight);
+                tvResult.setText(String.valueOf(volume));
             }
-            if (width == null) {
-                isInvalidDouble = true;
-                etLebar.setError("Field ini harus berupa nomer yang valid");
-            }
-            if (height == null) {
-                isInvalidDouble = true;
-                etTinggi.setError("Field ini harus berupa nomer yang valid");
-            }
-            if (!isEmptyFields && !isInvalidDouble) {
-                double volume = length * width * height;
-                tvHasil.setText(String.valueOf(volume));
-            }
-        }
-    }
-
-    private Double toDouble(String str) {
-        try {
-            return Double.valueOf(str);
-        } catch (NumberFormatException e) {
-            return null;
         }
     }
 }

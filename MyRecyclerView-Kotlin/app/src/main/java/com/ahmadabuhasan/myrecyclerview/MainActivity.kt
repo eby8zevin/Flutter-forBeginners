@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -31,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         rvHeroes.adapter = listHeroAdapter
     }
 
+    private fun showRecyclerGrid() {
+        rvHeroes.layoutManager = GridLayoutManager(this, 2)
+        val gridHeroAdapter = GridHeroAdapter(list)
+        rvHeroes.adapter = gridHeroAdapter
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -44,11 +51,11 @@ class MainActivity : AppCompatActivity() {
     private fun setMode(selectedMode: Int) {
         when (selectedMode) {
             R.id.action_list -> {
-
+                showRecyclerList()
             }
 
             R.id.action_grid -> {
-
+                showRecyclerGrid()
             }
 
             R.id.action_cardView -> {

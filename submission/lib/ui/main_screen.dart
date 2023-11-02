@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:submission/model/data.dart';
 import 'package:submission/ui/detail_screen.dart';
+import 'package:submission/ui/grid_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +27,34 @@ class MainScreen extends StatelessWidget {
             'Programming Language',
             style: TextStyle(color: Colors.white),
           ),
+          actions: [
+            PopupMenuButton<String>(
+              color: Colors.white,
+              onSelected: (value) {
+                if (value == 'grid') {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GridScreen()));
+                } else if (value == 'openUrl') {
+                  _launchInBrowser(Uri.parse(
+                      'https://www.simplilearn.com/best-programming-languages-start-learning-today-article'));
+                }
+              },
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem<String>(
+                    value: 'grid',
+                    child: Text('GridView'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'openUrl',
+                    child: Text('Source'),
+                  ),
+                ];
+              },
+            ),
+          ],
           backgroundColor: Colors.blue,
         ),
         body: LayoutBuilder(
@@ -65,7 +104,28 @@ class LanguagesList extends StatelessWidget {
                     height: 100,
                     color: const Color(0x6FB6B6B6),
                     child: SvgPicture.network(dataList.image),
-                  )
+                  ),
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          dataList.name,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          dataList.link,
+                          style: const TextStyle(fontSize: 13),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ))
                 ],
               ),
             ),
@@ -84,6 +144,45 @@ class LanguagesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.count(
+        crossAxisCount: count,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        children: data.map((dataGrid) {
+          return InkWell(
+            onTap: () {},
+            child: Card(
+              elevation: 4,
+              margin: const EdgeInsets.all(8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(color: Colors.lightBlue, width: 2),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.network(
+                    dataGrid.image,
+                    height: 80,
+                    width: 80,
+                  ),
+                  const SizedBox(height: 6.0),
+                  Text(
+                    dataGrid.name,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    dataGrid.link,
+                    style: const TextStyle(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }

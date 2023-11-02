@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:submission/model/data.dart';
 import 'package:submission/ui/detail_screen.dart';
-import 'package:submission/ui/grid_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  String _launchView = 'list';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _launchInBrowser(Uri url) async {
     if (!await launchUrl(
@@ -31,11 +42,14 @@ class MainScreen extends StatelessWidget {
             PopupMenuButton<String>(
               color: Colors.white,
               onSelected: (value) {
-                if (value == 'grid') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const GridScreen()));
+                if (value == 'list') {
+                  setState(() {
+                    _launchView = 'list';
+                  });
+                } else if (value == 'grid') {
+                  setState(() {
+                    _launchView = 'grid';
+                  });
                 } else if (value == 'openUrl') {
                   _launchInBrowser(Uri.parse(
                       'https://www.simplilearn.com/best-programming-languages-start-learning-today-article'));
@@ -43,6 +57,10 @@ class MainScreen extends StatelessWidget {
               },
               itemBuilder: (BuildContext context) {
                 return [
+                  const PopupMenuItem<String>(
+                    value: 'list',
+                    child: Text('ListView'),
+                  ),
                   const PopupMenuItem<String>(
                     value: 'grid',
                     child: Text('GridView'),
@@ -59,12 +77,16 @@ class MainScreen extends StatelessWidget {
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth <= 600) {
-            return const LanguagesList();
-          } else if (constraints.maxWidth <= 1200) {
-            return const LanguagesGrid(count: 4);
+          if (_launchView == 'list') {
+            if (constraints.maxWidth <= 600) {
+              return const LanguagesList();
+            } else if (constraints.maxWidth <= 1200) {
+              return const LanguagesGrid(count: 4);
+            } else {
+              return const LanguagesGrid(count: 6);
+            }
           } else {
-            return const LanguagesGrid(count: 6);
+            return const LanguagesGrid(count: 2);
           }
         }),
       );

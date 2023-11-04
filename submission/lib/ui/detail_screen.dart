@@ -74,11 +74,19 @@ class DetailScreen extends StatelessWidget {
                           Expanded(
                               flex: 6,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  dataList.link,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 16),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Container(
+                                  color: Colors.black,
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  child: Text(
+                                    dataList.link,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ),
                               ))
                         ],

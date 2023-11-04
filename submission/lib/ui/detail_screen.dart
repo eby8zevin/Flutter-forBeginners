@@ -64,31 +64,17 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          const Expanded(
-                              flex: 1,
-                              child: LinearProgressIndicator(
-                                backgroundColor: Colors.blue,
-                                value: 1,
-                                valueColor: AlwaysStoppedAnimation(Colors.blue),
-                              )),
-                          Expanded(
-                              flex: 6,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                child: Container(
-                                  color: Colors.black,
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: Text(
-                                    dataList.link,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ))
+                          Container(
+                            color: Colors.black,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Text(
+                              dataList.link,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ],

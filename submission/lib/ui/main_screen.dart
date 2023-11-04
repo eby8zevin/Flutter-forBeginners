@@ -86,7 +86,17 @@ class _MainScreenState extends State<MainScreen> {
               return const LanguagesGrid(count: 6);
             }
           } else {
-            return const LanguagesGrid(count: 2);
+            if (constraints.maxWidth >= 600) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Sorry! View Mobile only.",
+                    style: TextStyle(color: Colors.black)),
+                duration: Duration(seconds: 2),
+                backgroundColor: Color.fromARGB(255, 242, 203, 4),
+              ));
+              return const LanguagesList();
+            } else {
+              return const LanguagesGrid(count: 2);
+            }
           }
         }),
       );

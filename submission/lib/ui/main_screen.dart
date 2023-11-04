@@ -174,7 +174,12 @@ class LanguagesGrid extends StatelessWidget {
         mainAxisSpacing: 8,
         children: data.map((dataGrid) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailScreen(dataList: dataGrid)));
+            },
             child: Card(
               elevation: 4,
               margin: const EdgeInsets.all(8),

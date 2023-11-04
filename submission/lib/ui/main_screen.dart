@@ -200,14 +200,16 @@ class LanguagesGrid extends StatelessWidget {
                 side: const BorderSide(color: Colors.lightBlue, width: 2),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SvgPicture.network(
-                      dataGrid.image,
-                      height: 80,
-                      width: 80,
+                    Expanded(
+                      child: SvgPicture.network(
+                        dataGrid.image,
+                        height: 80,
+                        width: 80,
+                      ),
                     ),
                     const SizedBox(
                       height: 6,

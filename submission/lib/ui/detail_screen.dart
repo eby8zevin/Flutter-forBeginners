@@ -36,49 +36,21 @@ class DetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(40),
                 decoration:
                     const BoxDecoration(color: Color.fromRGBO(58, 66, 86, .5)),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(height: 100),
-                      const Icon(
-                        Icons.flutter_dash,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      const SizedBox(
-                        width: 50,
-                        child: Divider(color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: Text(
                         dataList.name,
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 45),
+                            const TextStyle(color: Colors.white, fontSize: 26),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            color: Colors.black,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Text(
-                              dataList.link,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Positioned(

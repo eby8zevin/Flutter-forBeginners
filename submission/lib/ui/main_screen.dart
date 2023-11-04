@@ -90,9 +90,9 @@ class _MainScreenState extends State<MainScreen> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Sorry! View Mobile only.",
-                      style: TextStyle(color: Colors.black)),
+                      style: TextStyle(color: Colors.white)),
                   duration: Duration(seconds: 2),
-                  backgroundColor: Color.fromARGB(255, 242, 203, 4),
+                  backgroundColor: Colors.blueAccent,
                 ));
               });
               return const LanguagesList();
@@ -144,14 +144,14 @@ class LanguagesList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           dataList.name,
                           style: const TextStyle(fontSize: 20),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           dataList.link,
                           style: const TextStyle(fontSize: 13),
@@ -179,12 +179,12 @@ class LanguagesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        crossAxisCount: count,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        children: data.map((dataGrid) {
+      padding: const EdgeInsets.all(16),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: count, crossAxisSpacing: 8, mainAxisSpacing: 8),
+        itemBuilder: (context, index) {
+          final Data dataGrid = data[index];
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -199,28 +199,35 @@ class LanguagesGrid extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 side: const BorderSide(color: Colors.lightBlue, width: 2),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SvgPicture.network(
-                    dataGrid.image,
-                    height: 80,
-                    width: 80,
-                  ),
-                  const SizedBox(height: 6.0),
-                  Text(
-                    dataGrid.name,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    dataGrid.link,
-                    style: const TextStyle(fontSize: 12),
-                  )
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SvgPicture.network(
+                      dataGrid.image,
+                      height: 80,
+                      width: 80,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      dataGrid.name,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      dataGrid.link,
+                      style: const TextStyle(fontSize: 12),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
             ),
           );
-        }).toList(),
+        },
+        itemCount: data.length,
       ),
     );
   }
